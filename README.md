@@ -7,3 +7,10 @@
 ## Run
 
 `java GamePanel`
+
+## Controls
+`w` move tank forward  
+`s` move tank backward  
+`a` rotate tank counter-clockwise  
+`d` rotate tank clockwise  
+`<space>` shoot
