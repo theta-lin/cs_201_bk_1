@@ -21,8 +21,6 @@ public abstract class GameObject
 	public GameObject(GamePanel gp, File imgFile, File boundFile, double x, double y, double dir)
 	{
 		this.gp = gp;
-		gp.objs.add(this);
-
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
@@ -51,15 +49,23 @@ public abstract class GameObject
 		}
 	}
 
+	public int getWidth()
+	{
+		return img.getWidth();
+	}
+
+	public int getHeight()
+	{
+		return img.getHeight();
+	}
+
 	public void paint(Graphics graphics)
 	{
-		if(rotImg == null) return;
 		graphics.drawImage(rotImg, (int)(x - rotImg.getWidth() / 2.0), (int)(y - rotImg.getHeight() / 2.0), null);
 	}
 
 	public void paintBound(Graphics graphics)
 	{
-		if(transBound == null) return;
 		Graphics2D g2d = (Graphics2D)graphics.create();
 		g2d.setColor(Color.WHITE);
 		g2d.draw(transBound);
@@ -101,5 +107,10 @@ public abstract class GameObject
 		t.translate(x - img.getWidth() / 2, y - img.getHeight() / 2);
 		t.rotate(dir, img.getWidth() / 2, img.getHeight() / 2);
 		transBound = bound.createTransformedArea(t);
+	}
+
+	public void onHit()
+	{
+		gp.objsNext.remove(this);
 	}
 }

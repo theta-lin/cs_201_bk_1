@@ -17,17 +17,26 @@ public class Tank extends GameObject
 
 	private boolean collide()
 	{
-		for (GameObject obj : gp.objs)
+		synchronized(gp.objs)
 		{
-			Area intersection = (Area)this.transBound.clone();
-			intersection.intersect(obj.transBound);
-			if (   obj != this
-				&& !intersection.isEmpty())
+			for (GameObject obj : gp.objs)
 			{
-				return true;
+				if (obj != this && (obj instanceof Tank || obj instanceof Wall))
+				{
+					Area intersection = (Area)this.transBound.clone();
+					intersection.intersect(obj.transBound);
+					if (!intersection.isEmpty()) return true;
+				}
 			}
-		};
+		}
 		return false;
+	}
+
+	protected void shoot()
+	{
+		Bullet bullet = new Bullet(gp, x, y, dir);
+		bullet.forward((img.getWidth() + bullet.getWidth()) * 1.05 / 2);
+		gp.objsNext.add(bullet);
 	}
 
 	@Override

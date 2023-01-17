@@ -1,5 +1,7 @@
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Image;
+import java.awt.Graphics;
+import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.*;
@@ -10,7 +12,8 @@ public class GamePanel extends JFrame
 	int height = 1080;
 
 	Image buffer;
-	ArrayList<GameObject> objs;
+	List<GameObject> objs = Collections.synchronizedList(new ArrayList<GameObject>());
+	List<GameObject> objsNext;
 	Player player;
 
 	public void launch()
@@ -22,17 +25,21 @@ public class GamePanel extends JFrame
 		setResizable(false);
 		setVisible(true);
 
-		this.addKeyListener(new GamePanel.KeyMonitor());
-
-		objs = new ArrayList<GameObject>();
 		player = new Player(this, 400, 400, 0);
-		objs.add(new Wall(this, 128, 128, 0));
-		objs.add(new Wall(this, 256, 128, 0));
-		objs.add(new Wall(this, 384, 128, 0));
-		objs.add(new Wall(this, 200, 200, Math.toRadians(40)));
-		objs.add(new Wall(this, 500, 500, Math.toRadians(60)));
-		objs.add(new Wall(this, 400, 800, Math.toRadians(60)));
-		objs.add(new Wall(this, 600, 300, Math.toRadians(60)));
+
+		synchronized(objs)
+		{
+			objs.add(player);
+			objs.add(new Wall(this, 128, 128, 0));
+			objs.add(new Wall(this, 256, 128, 0));
+			objs.add(new Wall(this, 384, 128, 0));
+			objs.add(new Wall(this, 200, 200, Math.toRadians(40)));
+			objs.add(new Wall(this, 500, 500, Math.toRadians(60)));
+			objs.add(new Wall(this, 400, 800, Math.toRadians(60)));
+			objs.add(new Wall(this, 600, 300, Math.toRadians(60)));
+		}
+
+		this.addKeyListener(new GamePanel.KeyMonitor());
 
 		long step = 10;
 		while (true)
@@ -46,7 +53,12 @@ public class GamePanel extends JFrame
 			{
 				e.printStackTrace();
 			}
-			objs.forEach((obj) -> obj.update(step));
+			synchronized(objs)
+			{
+				objsNext = new ArrayList<GameObject>(objs);
+				objs.forEach((obj) -> obj.update(step));
+				objs = objsNext;
+			}
 		}
 	}
 
@@ -59,8 +71,11 @@ public class GamePanel extends JFrame
 		gBuffer.setColor(Color.black);
 		gBuffer.fillRect(0, 0, width, height);
 
-		objs.forEach((obj) -> obj.paint(gBuffer));
-		objs.forEach((obj) -> obj.paintBound(gBuffer));
+		synchronized(objs)
+		{
+			objs.forEach((obj) -> obj.paint(gBuffer));
+			objs.forEach((obj) -> obj.paintBound(gBuffer));
+		}
 
 		graphics.drawImage(buffer, 0, 0, null);
 	}

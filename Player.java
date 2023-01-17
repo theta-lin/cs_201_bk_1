@@ -25,6 +25,9 @@ public class Player extends Tank
 		case KeyEvent.VK_D:
 			rotatingCW = true;
 			break;
+		case KeyEvent.VK_SPACE:
+			shoot();
+			break;
 		}
 	}
 
