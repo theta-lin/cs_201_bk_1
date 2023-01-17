@@ -11,7 +11,7 @@ public class Tank extends GameObject
 
 	public Tank(File imgFile, double x, double y, double dir)
 	{
-		super(imgFile, x, y, dir);
+		super(imgFile, new File("bound/tank.txt"), x, y, dir);
 	}
 
 	@Override
@@ -22,22 +22,26 @@ public class Tank extends GameObject
 		{
 			x += Math.cos(dir) * v * sec;
 			y += Math.sin(dir) * v * sec;
+			updateBound();
 		}
 		if (backward)
 		{
 			x -= Math.cos(dir) * v * sec;
 			y -= Math.sin(dir) * v * sec;
+			updateBound();
 		}
 
 		if (rotatingCC)
 		{
 			dir -= vRot * sec;
-			updateRotation();
+			updateImg();
+			updateBound();
 		}
 		if (rotatingCW)
 		{
 			dir += vRot * sec;
-			updateRotation();
+			updateImg();
+			updateBound();
 		}
 	}
 }

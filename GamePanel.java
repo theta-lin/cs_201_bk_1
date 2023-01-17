@@ -48,6 +48,7 @@ public class GamePanel extends JFrame
 		gBuffer.setColor(Color.black);
 		gBuffer.fillRect(0, 0, width, height);
 		player.paint(gBuffer);
+		player.paintBound(gBuffer);
 
 		graphics.drawImage(buffer, 0, 0, null);
 	}
