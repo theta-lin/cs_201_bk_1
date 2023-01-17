@@ -4,13 +4,14 @@ import java.io.*;
 import javax.imageio.ImageIO;
 import java.awt.event.KeyEvent;
 
-public class GameObject
+public abstract class GameObject
 {
 	protected BufferedImage img;
-	protected BufferedImage rotated;
 	protected double x;
 	protected double y;
 	protected double dir;
+
+	private BufferedImage rotImg;
 
 	public GameObject(File imgFile, double x, double y, double dir)
 	{
@@ -22,7 +23,7 @@ public class GameObject
 		{
 			e.printStackTrace();
 		}
-		rotated = rotate(img, dir);
+		updateRotation();
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
@@ -30,7 +31,7 @@ public class GameObject
 
 	public void paint(Graphics graphics)
 	{
-		graphics.drawImage(rotated, (int)(x - rotated.getWidth() / 2.0), (int)(y - rotated.getHeight() / 2.0), null);
+		graphics.drawImage(rotImg, (int)(x - rotImg.getWidth() / 2.0), (int)(y - rotImg.getHeight() / 2.0), null);
 	}
 
 	public void keyPressed(KeyEvent event)
@@ -45,21 +46,20 @@ public class GameObject
 	{
 	}
 
-	public static BufferedImage rotate(BufferedImage img, double angle)
+	protected void updateRotation()
 	{
 		int w = img.getWidth();
 		int h = img.getHeight();
 
-		int nw = (int)(w * Math.abs(Math.sin(angle)) + h * Math.abs(Math.cos(angle)));
-		int nh = (int)(h * Math.abs(Math.sin(angle)) + w * Math.abs(Math.cos(angle)));
+		int nw = (int)(w * Math.abs(Math.sin(dir)) + h * Math.abs(Math.cos(dir)));
+		int nh = (int)(h * Math.abs(Math.sin(dir)) + w * Math.abs(Math.cos(dir)));
 
-		BufferedImage rotated = new BufferedImage(nw, nh, img.getType());
-		Graphics2D g2d = rotated.createGraphics();
+		rotImg = new BufferedImage(nw, nh, img.getType());
+		Graphics2D g2d = rotImg.createGraphics();
 		g2d.translate(nw / 2, nh / 2);
-		g2d.rotate(angle);
+		g2d.rotate(dir);
 		g2d.translate(-w / 2, -h / 2);
 		g2d.drawImage(img, 0, 0, null);
 		g2d.dispose();
-		return rotated;
 	}
 }

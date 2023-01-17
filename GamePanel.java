@@ -10,7 +10,7 @@ public class GamePanel extends JFrame
 	int height = 1080;
 
 	Image buffer = null;
-	Tank tank = new Tank(new File("img/tank.png"), 400, 400, 0);
+	Player player = new Player(400, 400, 0);
 
 	public void launch()
 	{
@@ -35,7 +35,7 @@ public class GamePanel extends JFrame
 			{
 				e.printStackTrace();
 			}
-			tank.update(delay);
+			player.update(delay);
 		}
 	}
 
@@ -47,7 +47,7 @@ public class GamePanel extends JFrame
 		Graphics gBuffer = buffer.getGraphics();
 		gBuffer.setColor(Color.black);
 		gBuffer.fillRect(0, 0, width, height);
-		tank.paint(gBuffer);
+		player.paint(gBuffer);
 
 		graphics.drawImage(buffer, 0, 0, null);
 	}
@@ -63,13 +63,13 @@ public class GamePanel extends JFrame
 		@Override
 		public void keyPressed(KeyEvent event)
 		{
-			tank.keyPressed(event);
+			player.keyPressed(event);
 		}
 
 		@Override
 		public void keyReleased(KeyEvent event)
 		{
-			tank.keyReleased(event);
+			player.keyReleased(event);
 		}
 	}
 }
