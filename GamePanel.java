@@ -2,15 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.*;
+import java.util.*;
 
 public class GamePanel extends JFrame
 {
 	int width = 1920;
 	int height = 1080;
 
-	Image buffer = null;
-	Player player = new Player(400, 400, 0);
+	Image buffer;
+	ArrayList<GameObject> objs;
+	Player player;
 
 	public void launch()
 	{
@@ -23,19 +24,29 @@ public class GamePanel extends JFrame
 
 		this.addKeyListener(new GamePanel.KeyMonitor());
 
-		long delay = 10;
+		objs = new ArrayList<GameObject>();
+		player = new Player(this, 400, 400, 0);
+		objs.add(new Wall(this, 128, 128, 0));
+		objs.add(new Wall(this, 256, 128, 0));
+		objs.add(new Wall(this, 384, 128, 0));
+		objs.add(new Wall(this, 200, 200, Math.toRadians(40)));
+		objs.add(new Wall(this, 500, 500, Math.toRadians(60)));
+		objs.add(new Wall(this, 400, 800, Math.toRadians(60)));
+		objs.add(new Wall(this, 600, 300, Math.toRadians(60)));
+
+		long step = 10;
 		while (true)
 		{
 			repaint();
 			try
 			{
-				Thread.sleep(delay);
+				Thread.sleep(step);
 			}
 			catch(Exception e)
 			{
 				e.printStackTrace();
 			}
-			player.update(delay);
+			objs.forEach((obj) -> obj.update(step));
 		}
 	}
 
@@ -47,8 +58,9 @@ public class GamePanel extends JFrame
 		Graphics gBuffer = buffer.getGraphics();
 		gBuffer.setColor(Color.black);
 		gBuffer.fillRect(0, 0, width, height);
-		player.paint(gBuffer);
-		player.paintBound(gBuffer);
+
+		objs.forEach((obj) -> obj.paint(gBuffer));
+		objs.forEach((obj) -> obj.paintBound(gBuffer));
 
 		graphics.drawImage(buffer, 0, 0, null);
 	}

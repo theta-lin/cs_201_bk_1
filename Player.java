@@ -3,9 +3,9 @@ import java.io.*;
 
 public class Player extends Tank
 {
-	public Player(double x, double y, double dir)
+	public Player(GamePanel gp, double x, double y, double dir)
 	{
-		super(new File("img/player.png"), x, y, dir);
+		super(gp, new File("img/player.png"), x, y, dir);
 	}
 
 	@Override

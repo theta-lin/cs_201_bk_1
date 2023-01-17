@@ -1,3 +1,4 @@
+import java.awt.geom.*;
 import java.io.*;
 
 public class Tank extends GameObject
@@ -9,39 +10,62 @@ public class Tank extends GameObject
 	boolean rotatingCC = false;
 	boolean rotatingCW = false;
 
-	public Tank(File imgFile, double x, double y, double dir)
+	public Tank(GamePanel gp, File imgFile, double x, double y, double dir)
 	{
-		super(imgFile, new File("bound/tank.txt"), x, y, dir);
+		super(gp, imgFile, new File("bound/tank.txt"), x, y, dir);
+	}
+
+	private boolean collide()
+	{
+		for (GameObject obj : gp.objs)
+		{
+			Area intersection = (Area)this.transBound.clone();
+			intersection.intersect(obj.transBound);
+			if (   obj != this
+				&& !intersection.isEmpty())
+			{
+				return true;
+			}
+		};
+		return false;
 	}
 
 	@Override
 	public void update(long millis)
 	{
 		double sec = millis / 1000.0;
+
+		double xOld = x, yOld = y, dirOld = dir;
+
 		if (forward)
 		{
 			x += Math.cos(dir) * v * sec;
 			y += Math.sin(dir) * v * sec;
-			updateBound();
 		}
 		if (backward)
 		{
 			x -= Math.cos(dir) * v * sec;
 			y -= Math.sin(dir) * v * sec;
-			updateBound();
 		}
 
 		if (rotatingCC)
 		{
 			dir -= vRot * sec;
-			updateImg();
-			updateBound();
 		}
 		if (rotatingCW)
 		{
 			dir += vRot * sec;
-			updateImg();
+		}
+
+		updateBound();
+		if (collide())
+		{
+			x = xOld; y = yOld; dir = dirOld;
 			updateBound();
+		}
+		else if (dir != dirOld)
+		{
+			updateImg();
 		}
 	}
 }

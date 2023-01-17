@@ -8,17 +8,21 @@ import java.awt.event.KeyEvent;
 
 public abstract class GameObject
 {
+	protected GamePanel gp;
 	protected BufferedImage img;
 	protected Area bound;
 	protected double x;
 	protected double y;
 	protected double dir;
 
-	private BufferedImage rotImg;
-	private Area transBound;
+	public BufferedImage rotImg;
+	public Area transBound;
 
-	public GameObject(File imgFile, File boundFile, double x, double y, double dir)
+	public GameObject(GamePanel gp, File imgFile, File boundFile, double x, double y, double dir)
 	{
+		this.gp = gp;
+		gp.objs.add(this);
+
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
@@ -37,6 +41,7 @@ public abstract class GameObject
 				xpoints[i] = scanner.nextInt();
 				ypoints[i] = scanner.nextInt();
 			}
+			scanner.close();
 			bound = new Area(new Polygon(xpoints, ypoints, npoints));
 			updateBound();
 		}
@@ -48,11 +53,13 @@ public abstract class GameObject
 
 	public void paint(Graphics graphics)
 	{
+		if(rotImg == null) return;
 		graphics.drawImage(rotImg, (int)(x - rotImg.getWidth() / 2.0), (int)(y - rotImg.getHeight() / 2.0), null);
 	}
 
 	public void paintBound(Graphics graphics)
 	{
+		if(transBound == null) return;
 		Graphics2D g2d = (Graphics2D)graphics.create();
 		g2d.setColor(Color.WHITE);
 		g2d.draw(transBound);
@@ -94,10 +101,5 @@ public abstract class GameObject
 		t.translate(x - img.getWidth() / 2, y - img.getHeight() / 2);
 		t.rotate(dir, img.getWidth() / 2, img.getHeight() / 2);
 		transBound = bound.createTransformedArea(t);
-	}
-
-	public Area getBound()
-	{
-		return transBound;
 	}
 }
