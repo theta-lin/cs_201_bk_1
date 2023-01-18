@@ -4,12 +4,18 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.*;
+import java.awt.Rectangle;
 import java.util.*;
 
 public class GamePanel extends JFrame
 {
 	int width = 1920;
 	int height = 1080;
+	Rectangle leftBound = new Rectangle(-width, 0, width, height);
+	Rectangle rightBound  = new Rectangle(width, 0, width, height);
+	Rectangle upBound = new Rectangle(0, -height, width, height);
+	Rectangle downBound = new Rectangle(0, height, width, height);
 
 	Image buffer;
 	List<GameObject> objs = Collections.synchronizedList(new LinkedList<GameObject>());
@@ -57,6 +63,19 @@ public class GamePanel extends JFrame
 				objs.forEach((obj) -> obj.update(step));
 				objs.removeIf((obj) -> obj.dead);
 			}
+		}
+	}
+
+	public boolean outOfBound(Area area)
+	{
+		if (   area.intersects(leftBound) || area.intersects(rightBound)
+			|| area.intersects(upBound) || area.intersects(downBound))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 

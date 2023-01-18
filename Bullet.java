@@ -12,14 +12,14 @@ public class Bullet extends GameObject
 
 	private boolean collide()
 	{
-		boolean hit = false;
+		boolean hit = gp.outOfBound(transBound);
 		synchronized(gp.objs)
 		{
 			for (GameObject obj : gp.objs)
 			{
 				if (obj != this && (obj instanceof Tank || obj instanceof Wall))
 				{
-					Area intersection = (Area)this.transBound.clone();
+					Area intersection = (Area)transBound.clone();
 					intersection.intersect(obj.transBound);
 					if (!intersection.isEmpty())
 					{

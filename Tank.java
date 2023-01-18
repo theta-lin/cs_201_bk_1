@@ -17,13 +17,15 @@ public class Tank extends GameObject
 
 	private boolean collide()
 	{
+		if (gp.outOfBound(transBound)) return true;
+
 		synchronized(gp.objs)
 		{
 			for (GameObject obj : gp.objs)
 			{
 				if (obj != this && (obj instanceof Tank || obj instanceof Wall))
 				{
-					Area intersection = (Area)this.transBound.clone();
+					Area intersection = (Area)transBound.clone();
 					intersection.intersect(obj.transBound);
 					if (!intersection.isEmpty()) return true;
 				}
