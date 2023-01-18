@@ -26,7 +26,7 @@ public class Player extends Tank
 			rotatingCW = true;
 			break;
 		case KeyEvent.VK_SPACE:
-			shoot();
+			shooting = true;
 			break;
 		}
 	}
@@ -47,6 +47,9 @@ public class Player extends Tank
 			break;
 		case KeyEvent.VK_D:
 			rotatingCW = false;
+			break;
+		case KeyEvent.VK_SPACE:
+			shooting = false;
 			break;
 		}
 	}

@@ -19,6 +19,7 @@ public class GamePanel extends JFrame
 
 	Image buffer;
 	List<GameObject> objs = Collections.synchronizedList(new LinkedList<GameObject>());
+	List<GameObject> newObjs;
 	Player player;
 
 	public void launch()
@@ -50,6 +51,7 @@ public class GamePanel extends JFrame
 		while (true)
 		{
 			repaint();
+
 			try
 			{
 				Thread.sleep(step);
@@ -58,10 +60,13 @@ public class GamePanel extends JFrame
 			{
 				e.printStackTrace();
 			}
+
+			newObjs = Collections.synchronizedList(new LinkedList<GameObject>());
 			synchronized(objs)
 			{
-				objs.forEach((obj) -> obj.update(step));
+				objs.forEach((obj) -> obj.update(step / 1000.0));
 				objs.removeIf((obj) -> obj.dead);
+				objs.addAll(newObjs);
 			}
 		}
 	}

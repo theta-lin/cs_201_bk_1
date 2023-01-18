@@ -33,9 +33,8 @@ public class Bullet extends GameObject
 	}
 
 	@Override
-	public void update(long millis)
+	public void update(double sec)
 	{
-		double sec = millis / 1000.0;
 		x += Math.cos(dir) * v * sec;
 		y += Math.sin(dir) * v * sec;
 		updateBound();
