@@ -12,8 +12,7 @@ public class GamePanel extends JFrame
 	int height = 1080;
 
 	Image buffer;
-	List<GameObject> objs = Collections.synchronizedList(new ArrayList<GameObject>());
-	List<GameObject> objsNext;
+	List<GameObject> objs = Collections.synchronizedList(new LinkedList<GameObject>());
 	Player player;
 
 	public void launch()
@@ -55,9 +54,8 @@ public class GamePanel extends JFrame
 			}
 			synchronized(objs)
 			{
-				objsNext = new ArrayList<GameObject>(objs);
 				objs.forEach((obj) -> obj.update(step));
-				objs = objsNext;
+				objs.removeIf((obj) -> obj.dead);
 			}
 		}
 	}

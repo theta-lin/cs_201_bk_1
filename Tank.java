@@ -36,7 +36,10 @@ public class Tank extends GameObject
 	{
 		Bullet bullet = new Bullet(gp, x, y, dir);
 		bullet.forward((img.getWidth() + bullet.getWidth()) * 1.05 / 2);
-		gp.objsNext.add(bullet);
+		synchronized(gp.objs)
+		{
+			gp.objs.add(bullet);
+		}
 	}
 
 	@Override

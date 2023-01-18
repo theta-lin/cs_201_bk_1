@@ -15,6 +15,8 @@ public abstract class GameObject
 	protected double y;
 	protected double dir;
 
+	public boolean dead = false;
+
 	public BufferedImage rotImg;
 	public Area transBound;
 
@@ -111,6 +113,6 @@ public abstract class GameObject
 
 	public void onHit()
 	{
-		gp.objsNext.remove(this);
+		dead = true;
 	}
 }
