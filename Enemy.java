@@ -9,7 +9,7 @@ public class Enemy extends Tank
 		super(gp, new File("img/enemy.png"), x, y, dir);
 	}
     public void getRandomDirection () {
-        int rnum = random.nextInt(2);
+        int rnum = random.nextInt(4);
         switch (rnum) {
             case 0:
                forward = true;
@@ -19,7 +19,14 @@ public class Enemy extends Tank
                forward = false;
                backward = true;
 			break;
-        
+            case 2:
+               forward = true;
+               backward = false;
+			break;
+            case 3:
+               forward = true;
+               backward = false;
+			break;
                
 
             default:
@@ -38,6 +45,26 @@ public class Enemy extends Tank
             case 2:
             rotatingCC = false;
             rotatingCW = false;
+            break;
+
+            default:
+             return;
+                 
+
+        }
+        int rnum2 = random.nextInt(4);
+        switch (rnum2){
+            case 0:
+            shooting=true;
+            break;
+            case 1:
+            shooting=false;
+            break;
+            case 2:
+            shooting=false;
+            break;
+            case 3:
+            shooting=false;
             break;
 
             default:
