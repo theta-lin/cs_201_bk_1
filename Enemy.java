@@ -1,50 +1,62 @@
-import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.Random;
 
 public class Enemy extends Tank
-{  Random random=new Random();
-   public Enemy(GamePanel gp, double x, double y, double dir)
+{
+	Random random=new Random();
+	final double moveCdMax = 1;
+	final double turnCdMax = 0.3;
+	double moveCd = 0;
+	double turnCd = 0;
+
+	public Enemy(GamePanel gp, double x, double y, double dir)
 	{
 		super(gp, new File("img/enemy.png"), x, y, dir);
 	}
     public void getRandomDirection () {
-        int rnum = random.nextInt(2);
-        switch (rnum) {
-            case 0:
-               forward = true;
-               backward = false;
-			break;
-            case 1:
-               forward = false;
-               backward = true;
-			break;
-          
-               
+		if (moveCd <= 0)
+		{
+			moveCd = moveCdMax;
 
-            default:
-               return;
-        }
-        int rnum1 = random.nextInt(3);
-        switch (rnum1){
-            case 0:
-            rotatingCC = true;
-            rotatingCW = false;
-            break;
-            case 1:
-            rotatingCC = false;
-            rotatingCW = true;
-            break;
-            case 2:
-            rotatingCC = false;
-            rotatingCW = false;
-            break;
+			int rnum = random.nextInt(2);
+			switch (rnum) {
+				case 0:
+				   forward = true;
+				   backward = false;
+				break;
+				case 1:
+				   forward = false;
+				   backward = true;
+				break;
+				default:
+				   return;
+			}
+		}
 
-            default:
-             return;
-                 
+		if (turnCd <= 0)
+		{
+			turnCd = turnCdMax;
 
-        }
+			int rnum1 = random.nextInt(3);
+			switch (rnum1){
+				case 0:
+				rotatingCC = true;
+				rotatingCW = false;
+				break;
+				case 1:
+				rotatingCC = false;
+				rotatingCW = true;
+				break;
+				case 2:
+				rotatingCC = false;
+				rotatingCW = false;
+				break;
+
+				default:
+				 return;
+			}
+		}
+
         int rnum2 = random.nextInt(4);
         switch (rnum2){
             case 0:
@@ -62,16 +74,16 @@ public class Enemy extends Tank
 
             default:
              return;
-                 
-
         }
     }
-            
+
     @Override
     public void update(double sec)
     {
-      getRandomDirection();
-      super.update(sec);
+		if (moveCd > 0) moveCd -= sec;
+		if (turnCd > 0) turnCd -= sec;
+		getRandomDirection();
+		super.update(sec);
     }
-    
+
 }
