@@ -103,7 +103,7 @@ public class GamePanel extends JFrame
 		if (buffer == null) buffer = this.createImage(width, height);
 
 		Graphics gBuffer = buffer.getGraphics();
-		gBuffer.setColor(Color.blue);
+		gBuffer.setColor(Color.gray);
 		gBuffer.setFont(new Font("SansSerif", Font.BOLD, 50));
 		gBuffer.fillRect(0, 0, width, height);
 
