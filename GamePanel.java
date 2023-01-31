@@ -121,6 +121,12 @@ public class GamePanel extends JFrame
 				if (showBound) objs.forEach((obj) -> obj.paintBound(gBuffer));
 			}
 		}
+		else if (state == 4){
+			gBuffer.drawString("Win", 220, 220);
+		}
+		else if (state ==4){
+			gBuffer.drawString("Fail", 220, 220);
+		}
 
 		graphics.drawImage(buffer, 0, 0, null);
 	}
