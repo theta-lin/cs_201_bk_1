@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Enemy extends Tank
@@ -17,6 +18,8 @@ public class Enemy extends Tank
 	boolean attacking = false;
 
 	double xPre, yPre;
+
+	ArrayList<Enemy> Enemy
 
 	public Enemy(GamePanel gp, double x, double y, double dir)
 	{
