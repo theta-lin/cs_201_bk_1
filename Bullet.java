@@ -3,7 +3,7 @@ import java.io.*;
 
 public class Bullet extends GameObject
 {
-	double v = 400;
+	double v = 200;
 
 	public Bullet(GamePanel gp, double x, double y, double dir)
 	{

@@ -4,8 +4,8 @@ import java.io.*;
 public class Tank extends GameObject
 {
 	final double v = 150;
-	final double vRot = Math.PI;
-	final double cdMax = 0.5;
+	final double vRot = Math.PI * 0.8;
+	final double cdMax = 2;
 
 	boolean forward = false;
 	boolean backward = false;

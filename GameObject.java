@@ -51,6 +51,16 @@ public abstract class GameObject
 		}
 	}
 
+	public double getX()
+	{
+		return x;
+	}
+
+	public double getY()
+	{
+		return y;
+	}
+
 	public int getWidth()
 	{
 		return img.getWidth();
