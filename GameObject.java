@@ -91,8 +91,8 @@ public abstract class GameObject
 		int w = img.getWidth();
 		int h = img.getHeight();
 
-		int nw = (int)(w * Math.abs(Math.sin(dir)) + h * Math.abs(Math.cos(dir)));
-		int nh = (int)(h * Math.abs(Math.sin(dir)) + w * Math.abs(Math.cos(dir)));
+		int nw = (int)(h * Math.abs(Math.sin(dir)) + w * Math.abs(Math.cos(dir)));
+		int nh = (int)(w * Math.abs(Math.sin(dir)) + h * Math.abs(Math.cos(dir)));
 
 		rotImg = new BufferedImage(nw, nh, img.getType());
 		Graphics2D g2d = rotImg.createGraphics();
