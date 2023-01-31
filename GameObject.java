@@ -82,7 +82,7 @@ public abstract class GameObject
 	{
 	}
 
-	public void update(double sec)
+	public void update(long millis)
 	{
 	}
 

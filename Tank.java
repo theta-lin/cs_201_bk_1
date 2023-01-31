@@ -3,17 +3,12 @@ import java.io.*;
 
 public class Tank extends GameObject
 {
-	final double v = 150;
-	final double vRot = Math.PI;
-	final double cdMax = 0.5;
-
+	double v = 150;
+	double vRot = Math.PI;
 	boolean forward = false;
 	boolean backward = false;
 	boolean rotatingCC = false;
 	boolean rotatingCW = false;
-	boolean shooting = false;
-
-	double cd = 0;
 
 	public Tank(GamePanel gp, File imgFile, double x, double y, double dir)
 	{
@@ -43,12 +38,17 @@ public class Tank extends GameObject
 	{
 		Bullet bullet = new Bullet(gp, x, y, dir);
 		bullet.forward((img.getWidth() + bullet.getWidth()) * 1.05 / 2);
-		gp.newObjs.add(bullet);
+		synchronized(gp.objs)
+		{
+			gp.objs.add(bullet);
+		}
 	}
 
 	@Override
-	public void update(double sec)
+	public void update(long millis)
 	{
+		double sec = millis / 1000.0;
+
 		double xOld = x, yOld = y, dirOld = dir;
 
 		if (forward)
@@ -80,16 +80,6 @@ public class Tank extends GameObject
 		else if (dir != dirOld)
 		{
 			updateImg();
-		}
-
-		if (cd > 0)
-		{
-			cd -= sec;
-		}
-		if (shooting && cd <= 0)
-		{
-			shoot();
-			cd = cdMax;
 		}
 	}
 }
