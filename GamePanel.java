@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.Image;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;
@@ -12,6 +13,9 @@ public class GamePanel extends JFrame
 {
 	int width = 1920;
 	int height = 1080;
+
+    int state = 0;
+
 	Rectangle leftBound = new Rectangle(-width, 0, width, height);
 	Rectangle rightBound  = new Rectangle(width, 0, width, height);
 	Rectangle upBound = new Rectangle(0, -height, width, height);
@@ -67,12 +71,15 @@ public class GamePanel extends JFrame
 				e.printStackTrace();
 			}
 
-			newObjs = Collections.synchronizedList(new LinkedList<GameObject>());
-			synchronized(objs)
+			if (state == 1)
 			{
-				objs.forEach((obj) -> obj.update(step / 1000.0));
-				objs.removeIf((obj) -> obj.dead);
-				objs.addAll(newObjs);
+				newObjs = Collections.synchronizedList(new LinkedList<GameObject>());
+				synchronized(objs)
+				{
+					objs.forEach((obj) -> obj.update(step / 1000.0));
+					objs.removeIf((obj) -> obj.dead);
+					objs.addAll(newObjs);
+				}
 			}
 		}
 	}
@@ -96,13 +103,23 @@ public class GamePanel extends JFrame
 		if (buffer == null) buffer = this.createImage(width, height);
 
 		Graphics gBuffer = buffer.getGraphics();
-		gBuffer.setColor(Color.black);
+		gBuffer.setColor(Color.blue);
+		gBuffer.setFont(new Font("SansSerif", Font.BOLD, 50));
 		gBuffer.fillRect(0, 0, width, height);
 
-		synchronized(objs)
+		if (state == 0)
 		{
-			objs.forEach((obj) -> obj.paint(gBuffer));
-			if (showBound) objs.forEach((obj) -> obj.paintBound(gBuffer));
+			gBuffer.setColor(Color.white);
+			gBuffer.drawString("Start Game", 300, 400);
+			gBuffer.drawString("Tank Warfare", 250, 200);
+		}
+		else if (state == 1)
+		{
+			synchronized(objs)
+			{
+				objs.forEach((obj) -> obj.paint(gBuffer));
+				if (showBound) objs.forEach((obj) -> obj.paintBound(gBuffer));
+			}
 		}
 
 		graphics.drawImage(buffer, 0, 0, null);
@@ -123,8 +140,15 @@ public class GamePanel extends JFrame
 		@Override
 		public void keyPressed(KeyEvent event)
 		{
-			if (event.getKeyCode() == KeyEvent.VK_B) showBound = !showBound;
-			player.keyPressed(event);
+			if (state == 0)
+			{
+				if (event.getKeyCode() == KeyEvent.VK_ENTER) state = 1;
+			}
+			else if (state == 1)
+			{
+				if (event.getKeyCode() == KeyEvent.VK_B) showBound = !showBound;
+				player.keyPressed(event);
+			}
 		}
 
 		@Override
@@ -134,5 +158,5 @@ public class GamePanel extends JFrame
 		}
 	}
 
-	
+
 }
