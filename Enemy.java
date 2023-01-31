@@ -9,7 +9,7 @@ public class Enemy extends Tank
 		super(gp, new File("img/enemy.png"), x, y, dir);
 	}
     public void getRandomDirection () {
-        int rnum = random.nextInt(4);
+        int rnum = random.nextInt(2);
         switch (rnum) {
             case 0:
                forward = true;
@@ -19,14 +19,7 @@ public class Enemy extends Tank
                forward = false;
                backward = true;
 			break;
-            case 2:
-               forward = true;
-               backward = false;
-			break;
-            case 3:
-               forward = true;
-               backward = false;
-			break;
+          
                
 
             default:
