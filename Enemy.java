@@ -19,9 +19,31 @@ public class Enemy extends Tank
                forward = false;
                backward = true;
 			break;
-            
+        
+               
+
             default:
                return;
+        }
+        int rnum1 = random.nextInt(3);
+        switch (rnum1){
+            case 0:
+            rotatingCC = true;
+            rotatingCW = false;
+            break;
+            case 1:
+            rotatingCC = false;
+            rotatingCW = true;
+            break;
+            case 2:
+            rotatingCC = false;
+            rotatingCW = false;
+            break;
+
+            default:
+             return;
+                 
+
         }
     }
             
