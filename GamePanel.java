@@ -31,7 +31,7 @@ public class GamePanel extends JFrame
 		setResizable(false);
 		setVisible(true);
 
-		player = new Player(this, 400, 400, 0);
+		player = new Player(this, 400, 300, 0);
 
 		synchronized(objs)
 		{
