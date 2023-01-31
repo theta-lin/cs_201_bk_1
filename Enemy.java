@@ -164,7 +164,7 @@ public class Enemy extends Tank
 				moveCd = 0;
 				turnCd = 0;
 			}
-			System.out.println(attacking);
+			//System.out.println(attacking);
 		}
 
 		getRandomDirection();
