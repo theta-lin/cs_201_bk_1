@@ -46,6 +46,9 @@ public class GamePanel extends JFrame
 			objs.add(new Wall(this, 400, 800, Math.toRadians(60)));
 			objs.add(new Wall(this, 600, 400, Math.toRadians(60)));
 			objs.add(new Enemy(this,100,700,0));
+			objs.add(new Enemy(this,600,900,0));
+			objs.add(new Enemy(this,800,900,0));
+			objs.add(new Enemy(this,700,500,0));
 		}
 
 		this.addKeyListener(new GamePanel.KeyMonitor());
@@ -126,4 +129,6 @@ public class GamePanel extends JFrame
 			player.keyReleased(event);
 		}
 	}
+
+	
 }

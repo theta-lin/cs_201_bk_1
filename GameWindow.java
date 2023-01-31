@@ -9,7 +9,8 @@ import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class GameWindow extends JFrame{
+public class GameWindow extends JFrame
+{
 
     int width = 840;
     int height = 560;
@@ -60,7 +61,7 @@ public class GameWindow extends JFrame{
         
         }
         else if (state == 1){
-            java GamePanel;
+            GamePanel;
         }
     }
 
@@ -79,21 +80,10 @@ public class GameWindow extends JFrame{
         }
 			
 
-		@Override
-		public void keyReleased(KeyEvent event)
-		{
-			
-		}
-	}
-
-
-
-    
-    
-
-    public static void main(String[] args){
+        public static void main(String[] args){
         GameWindow gp = new GameWindow();
         gp.launch();
-    }
+        }
 
+    }
 }
