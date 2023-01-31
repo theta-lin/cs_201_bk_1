@@ -13,4 +13,5 @@
 `s` move tank backward  
 `a` rotate tank counter-clockwise  
 `d` rotate tank clockwise  
-`<space>` shoot
+`<space>` shoot  
+`b` toggle display of bound box

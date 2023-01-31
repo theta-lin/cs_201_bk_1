@@ -17,6 +17,8 @@ public class GamePanel extends JFrame
 	Rectangle upBound = new Rectangle(0, -height, width, height);
 	Rectangle downBound = new Rectangle(0, height, width, height);
 
+	volatile boolean showBound = false;
+
 	Image buffer;
 	List<GameObject> objs = Collections.synchronizedList(new LinkedList<GameObject>());
 	List<GameObject> newObjs;
@@ -97,7 +99,7 @@ public class GamePanel extends JFrame
 		synchronized(objs)
 		{
 			objs.forEach((obj) -> obj.paint(gBuffer));
-			objs.forEach((obj) -> obj.paintBound(gBuffer));
+			if (showBound) objs.forEach((obj) -> obj.paintBound(gBuffer));
 		}
 
 		graphics.drawImage(buffer, 0, 0, null);
@@ -114,6 +116,7 @@ public class GamePanel extends JFrame
 		@Override
 		public void keyPressed(KeyEvent event)
 		{
+			if (event.getKeyCode() == KeyEvent.VK_B) showBound = !showBound;
 			player.keyPressed(event);
 		}
 
