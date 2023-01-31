@@ -19,7 +19,7 @@ public class Enemy extends Tank
 
 	double xPre, yPre;
 
-	ArrayList<Enemy> Enemy
+	//ArrayList<Enemy> Enemy
 
 	public Enemy(GamePanel gp, double x, double y, double dir)
 	{

@@ -131,9 +131,9 @@ public class GamePanel extends JFrame
 		gp.launch();
 	}
 
-	while (true){
-		if(EnemyList.size()==0 && enemyCount == 4)
-	}
+	//while (true){
+	//    if(EnemyList.size()==0 && enemyCount == 4)
+	//}
 
 	class KeyMonitor extends KeyAdapter
 	{
@@ -157,6 +157,4 @@ public class GamePanel extends JFrame
 			player.keyReleased(event);
 		}
 	}
-
-
 }
